@@ -1,3 +1,4 @@
+// alle variabelen maken voor makkelijk gebruik en overzicht
 const PRIJSFRIS = 2;
 const PRIJSBIER = 3;
 const PRIJSWIJN = 5;
@@ -12,6 +13,7 @@ var totaalFris = 0;
 var totaalBier = 0;
 var totaalWijn = 0;
 var totaalBitterballen = 0;
+var totaalTotaal = 0;
 
 var antwoordPrompt = "";
 var rekeningText = "";
@@ -22,7 +24,7 @@ var bierBesteld = false;
 var wijnBesteld = false;
 var snackBesteld = false;
 
-
+// startmenu waar alles wordt besteld
 function startMenu() {
 	promptStartmenu = prompt("Welke bestelling wilt u toevoegen?");
 	if (promptStartmenu == "fris" || promptStartmenu == "bier" || promptStartmenu == "wijn" || promptStartmenu == "snack") {
@@ -35,14 +37,21 @@ function startMenu() {
 	}
 }
 
+// bestelfunctie
 function bestel(bestelling) {
+
+	// kijkt wat de klant heeft ingevult in het startmenu
 	if (bestelling == "fris" || bestelling == "bier" || bestelling == "wijn") {
 		aantalBestelling = prompt("Hoeveel " + bestelling + " wilt u toevoegen aan uw bestelling? type 'annuleer' om iets anders te kiezen");
+
+		// als de klant van gedachten veranderd dan wordt die teruggestuurd naar het startmenu, waarna de 'return' ervoor zorgt dat de functie gelijk eindigt
 		if (aantalBestelling == "annuleer") {
 		startMenu();
 		return;
 		}
 		bevestiging = prompt("U gaat " + aantalBestelling + " " + bestelling + " toevoegen aan uw bestelling, klopt dit? Type 'ja' om te bevestigen of type 'annuleer' om terug te gaan.");
+		
+		// bij als antwoord 'ja' gaat de functie vervolgens de bestelling uitrekenen
 		if (bevestiging == "ja") {
 			aantalBestelling = parseInt(aantalBestelling);
 			if (bestelling == "fris") {
@@ -58,6 +67,8 @@ function bestel(bestelling) {
 				totaalWijn += (totaalBestelling);
 				wijnBesteld = true;
 			}
+
+			// hier wordt de huidige bestelling aan de rekening toegevoegd
 			rekeningText += (aantalBestelling + " " + bestelling + " €" + totaalBestelling.toFixed(2) + "<br>");
 			startMenu();
 		} else if (bevestiging == "annuleer") {
@@ -65,16 +76,22 @@ function bestel(bestelling) {
 		} else {
 			alert("U heeft een ongeldige invoer gedaan.");
 			bestel(bestelling);
-		} 
+		}
+
+	// als de klant een snack wilt dan wordt dat hier afgehandeld
 	} else if (bestelling == "snack") {
 		aantalBestelling = prompt("Hoeveel bitterballen wilt u toevoegen (8 of 16)?  type 'annuleer' om iets anders te kiezen");
 		if (aantalBestelling == 8 || aantalBestelling == 16) {
 			aantalBitterballen = prompt("Hoeveel bitterbalschalen van " + aantalBestelling + " stuks wilt u bestellen? type 'annuleer' om terug te gaan.");
+
+			// annuleer
 			if (aantalBitterballen == "annuleer") {
 				bestel(bestelling);
 				return;
 			}
 			bevestiging = prompt("U gaat " + aantalBitterballen + " schalen van bitterballen toevoegen van " + aantalBestelling + " stuks aan uw bestelling, klopt dit? Type 'ja' om te bevestigen of type 'annuleer' om terug te gaan.");
+
+			// bevestiging check
 			if (bevestiging == "ja") {
 				aantalBestelling = parseInt(aantalBestelling);
 				aantalBitterballen = parseInt(aantalBitterballen);
@@ -85,6 +102,8 @@ function bestel(bestelling) {
 				}
 				snackBesteld = true;
 				totaalBitterballen += (totaalBestelling);
+
+				// toevoegen aan rekening
 				rekeningText += (aantalBitterballen + " bitterbalschaal " + aantalBestelling + " stuks €" + totaalBestelling.toFixed(2) + "<br>");
 				startMenu();
 			} else if (bevestiging == "annuleer") {
@@ -102,6 +121,7 @@ function bestel(bestelling) {
 	}
 }
 
+// rekening functie, hier worden de totalen opgeteld en toegevoegd aan de rekening waarna de rekening zelf wordt uitgeprint
 function rekening() {
 	totaalTotaal = (totaalFris + totaalBier + totaalWijn + totaalBitterballen);
 	document.write("Rekening <br>--------------------------------<br>");
@@ -119,7 +139,10 @@ function rekening() {
 		rekeningText += ("Totaal bitterballen: €" + totaalBitterballen.toFixed(2) + "<br>");
 	}
 	rekeningText += ("--------------------------------<br> Totaal: €" + totaalTotaal.toFixed(2));
+
+	// de volledige rekening wordt geprint, dit is een string text in een variabele zodat je maar 1 of een paar keer iets hoeft te printen
 	document.write(rekeningText);
 }
 
+// start van het programma, kan aan een button gekoppeld worden
 startMenu();
