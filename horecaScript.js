@@ -23,9 +23,16 @@ var frisBesteld = false;
 var bierBesteld = false;
 var wijnBesteld = false;
 var snackBesteld = false;
+var beginRekening = false;
 
 // startmenu waar alles wordt besteld
 function startMenu() {
+	// kijkt of het begin van de rekening al geprint is, dit gebeurt maar één keer
+	if (beginRekening == false) {
+		rekeningText += ("Rekening <br>--------------------------------<br>");
+		beginRekening = true;
+	}
+
 	promptStartmenu = prompt("Welke bestelling wilt u toevoegen?");
 	if (promptStartmenu == "fris" || promptStartmenu == "bier" || promptStartmenu == "wijn" || promptStartmenu == "snack") {
 		bestel(promptStartmenu);
@@ -39,7 +46,6 @@ function startMenu() {
 
 // bestelfunctie
 function bestel(bestelling) {
-
 	// kijkt wat de klant heeft ingevult in het startmenu
 	if (bestelling == "fris" || bestelling == "bier" || bestelling == "wijn") {
 		aantalBestelling = prompt("Hoeveel " + bestelling + " wilt u toevoegen aan uw bestelling? type 'annuleer' om iets anders te kiezen");
@@ -124,7 +130,6 @@ function bestel(bestelling) {
 // rekening functie, hier worden de totalen opgeteld en toegevoegd aan de rekening waarna de rekening zelf wordt uitgeprint
 function rekening() {
 	totaalTotaal = (totaalFris + totaalBier + totaalWijn + totaalBitterballen);
-	document.write("Rekening <br>--------------------------------<br>");
 	rekeningText += ("<br>");
 	if (frisBesteld) {
 		rekeningText += ("Totaal fris: €" + totaalFris.toFixed(2) + "<br>");
@@ -141,7 +146,7 @@ function rekening() {
 	rekeningText += ("--------------------------------<br> Totaal: €" + totaalTotaal.toFixed(2));
 
 	// de volledige rekening wordt geprint, dit is een string text in een variabele zodat je maar 1 of een paar keer iets hoeft te printen
-	document.write(rekeningText);
+	document.getElementById('rekening').innerHTML = (rekeningText);
 }
 
 // start van het programma, kan aan een button gekoppeld worden
